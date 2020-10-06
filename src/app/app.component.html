@@ -1,13 +1,15 @@
-<h1>test</h1>
-<div>
-  <div *ngIf="!isGettingCheckout">
-    $<input type="number" [(ngModel)]="paymentAmount" /> (USD)
-    <button id="checkout-button" (click)="payAmount()">Pay</button>
+<!-- Display a payment form -->
+<form id="payment-form">
+  <div id="card-element">
+    <!--Stripe.js injects the Card Element-->
   </div>
-  <div *ngIf="isGettingCheckout">
-  <div >Thank you!</div>
-  <div >Sending you to checkout...
-    <app-sbd-spinner></app-sbd-spinner>
-  </div>
-  </div>
-</div>
+  <button id="submit">
+    <div class="spinner hidden" id="spinner"></div>
+    <span id="button-text">Pay</span>
+  </button>
+  <p id="card-error" role="alert"></p>
+  <p class="result-message hidden">
+    Payment succeeded, see the result in your
+    <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+  </p>
+</form>
