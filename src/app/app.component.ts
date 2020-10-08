@@ -10,14 +10,13 @@ import { HttpClient } from '@angular/common/http';
 
 export class AppComponent {
   title = 'angular-app';
-  // stripe = Stripe('pk_test_51HO0KCESOl6tMOVp9lRJRna9R7lU408bAnZCxpEvMqnDBmGcu0lZTEpo0i2VMXRvDkzZfMhSzA5288DqmXCKwCTD00w71tQarJ');
   paymentAmount = 10.00;
   isGettingCheckout = false;
 
-  connectedAcc: any = 'acct_1HZFstKG6Elb1SM1'
-  customerId: any = 'cus_I9C8TvbCTsCoe8'
-  productId: any = 'prod_I9RzmDL3aRVxvL'
-  priceId: any = 'price_1HZ95zESOl6tMOVptL6NufbB'
+  connectedAcc: string = 'acct_1HZFstKG6Elb1SM1'
+  customerId: any = 'cus_I9y8rjOEPLBeT9'//'cus_I9C8TvbCTsCoe8'
+  productId: any = 'prod_I9y6GA0nvQw0Yi'
+  priceId: any = 'price_1HZeAPKG6Elb1SM1RQ1eNqqM'
 
 
   constructor(private http: HttpClient) { }
@@ -33,7 +32,7 @@ export class AppComponent {
     const SUBSCRIPTION_BASIC_PLAN_ID = 'plan_1234';
 
     // try {
-    const stripe = await loadStripe(PUBLISHABLE_KEY);
+    const stripe = await loadStripe(PUBLISHABLE_KEY,{ stripeAccount: this.connectedAcc});
 
     const body = {
       connectedAcc: this.connectedAcc,
@@ -47,12 +46,10 @@ export class AppComponent {
     }
     this.http.post<any>('http://localhost:3001/create-checkout-session', body, { headers })
       .subscribe(session => {
-        console.log('session ' + session);
+        console.log('session ' + session.id);
         return stripe.redirectToCheckout({ sessionId: session.id });
       })
   }
-
-
 
   //   stripe.redirectToCheckout({
   //     items: [{plan: SUBSCRIPTION_BASIC_PLAN_ID, quantity: 1}],
